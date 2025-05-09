@@ -1,44 +1,34 @@
 import java.io.*;
 import java.util.*;
 
+public class Codeforces {
 
-public class CodeForces {
-    static final int MOD = 998244353;
-
-    static class Node {
-        int data;
-        Node next;
-
-        Node(int data) {
-            this.data = data;
-            next = null;
-        }
-    }
 
     static void nikhilist(Scanner sc) throws IOException {
         int n = sc.nextInt();
-        if (n == 0) {
-            System.out.println("Empty list");
-            return;
+        int[] v = sc.arr(n);
+        mergeSort(v, 0, n - 1);
+        pv(v);
+    }
+
+    private static void mergeSort(int[] v, int l, int r) {
+        int m = l + (r - l) / 2;
+        if (l < r) {
+            mergeSort(v, l, m);
+            mergeSort(v, m + 1, r);
+            merge(v, l, m, r);
         }
+    }
 
-        Node head = new Node(1);
-        Node pointer = head;
-
-        for (int i = 2; i <= n; i++) {
-            Node newNode = new Node(i);
-            pointer.next = newNode;
-            pointer = newNode;
-        }
-
-        pointer.next = head;
-
-        pointer = head;
-        do {
-            System.out.print(pointer.data + " -> ");
-            pointer = pointer.next;
-        } while (pointer != head);
-        System.out.println("(back to head)");
+    private static void merge(int[] v, int l, int m, int r) {
+        int[] a = new int[r - l + 1];
+        int i = l, j = m + 1, ind = 0;
+        while (i <= m && j <= r)
+            if (v[i] <= v[j]) a[ind++] = v[i++];
+            else a[ind++] = v[j++];
+        while (i <= m) a[ind++] = v[i++];
+        while (j <= r) a[ind++] = v[j++];
+        for (int k = l; k <= r; k++) v[k] = a[k - l];
     }
 
 
@@ -50,6 +40,11 @@ public class CodeForces {
             nikhilist(sc);
         }
         out.close();
+    }
+
+    private static void pv(int[] v) {
+        for (long x : v) System.out.print(x + " ");
+        System.out.println();
     }
 
     static class Scanner {
@@ -116,14 +111,6 @@ public class CodeForces {
         boolean ready() throws IOException {
             return br.ready();
         }
-    }
-
-    public static long factorial(int n) {
-        long res = 1;
-        for (int i = 2; i <= n; i++) {
-            res = (res * i) % MOD;
-        }
-        return res;
     }
 
 
@@ -226,6 +213,16 @@ public class CodeForces {
         return low;
     }
 
+    static int[] parent;
+
+    static int find(int x) {
+        if (parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
+
+    static void union(int x, int y) {
+        parent[find(x)] = find(y);
+    }
 
     static boolean areAllCharSame(String s, char c) {
         for (int i = 0; i < s.length(); i++) {
