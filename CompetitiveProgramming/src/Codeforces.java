@@ -2,41 +2,15 @@ import java.io.*;
 import java.util.*;
 
 public class Codeforces {
-    static int cnt = 0;
+
 
     static void nikhilist(Scanner sc) throws IOException {
         int n = sc.nextInt();
         int[] v = sc.arr(n);
-        mergeSort(v, 0, n - 1);
-        System.out.println(cnt);
-    }
+        int[] res = new int[n];
 
-    private static void mergeSort(int[] v, int l, int r) {
-        int m = l + (r - l) / 2;
-        if (l < r) {
-            mergeSort(v, l, m);
-            mergeSort(v, m + 1, r);
-            merge(v, l, m, r);
-        }
-    }
 
-    private static void merge(int[] v, int l, int m, int r) {
-        int[] a = new int[r - l + 1];
-        int i = l, j = m + 1, ind = 0;
-        while (i <= m && j <= r)
-            if (v[i] <= v[j]) {
-                a[ind++] = v[i++];
-            } else {
-                a[ind++] = v[j++];
-                cnt += (m - i + 1);
-            }
-        while (i <= m) a[ind++] = v[i++];
-        while (j <= r) a[ind++] = v[j++];
-        for (int k = l; k <= r; k++) v[k] = a[k - l];
-        pv(v);
-        System.out.println(cnt);
     }
-
 
     public static void main(String[] args) throws IOException, java.lang.Exception {
         PrintWriter out = new PrintWriter(System.out);
