@@ -1,3 +1,7 @@
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class Queue {
     static class Node {
         int data;
@@ -66,7 +70,9 @@ public class Queue {
         System.out.println(queue.size());
         System.out.println(queue.peek());
         System.out.println(queue.poll());
-
+        Set<Integer> set = new TreeSet<>();
+        set.add(5);
+        System.out.println(set);
 
     }
 }

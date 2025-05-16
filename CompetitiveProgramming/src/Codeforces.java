@@ -1,15 +1,64 @@
 import java.io.*;
 import java.util.*;
 
-public class Codeforces {
-
+class Codeforces {
+    private static final int MOD = 998244353;
 
     static void nikhilist(Scanner sc) throws IOException {
         int n = sc.nextInt();
-        int[] v = sc.arr(n);
-        int[] res = new int[n];
+        int X = sc.nextInt();
+        int Y = sc.nextInt();
+        int[] A = sc.arr(n);
 
+        boolean[] reachable = new boolean[X+1];
+        List<Integer> reachList = new ArrayList<>();
+        List<Integer> divisors = new ArrayList<>();
+        List<Integer> ans = new ArrayList<>();
 
+        reachable[X] = true;
+        reachList.add(X);
+
+        int firstGood = -1;
+        for (int i = 0; i < n; i++) {
+            int b = A[i];
+            if (b <= Y) break;
+
+            List<Integer> newList = new ArrayList<>();
+            for (int r : reachList) {
+                int v = r % b;
+                if (!reachable[v]) {
+                    reachable[v] = true;
+                    newList.add(v);
+                }
+            }
+            Deque<Integer> q = new ArrayDeque<>(newList);
+            while (!q.isEmpty()) {
+                int u = q.poll();
+                for (int d : divisors) {
+                    int w = u % d;
+                    if (!reachable[w]) {
+                        reachable[w] = true;
+                        newList.add(w);
+                        q.add(w);
+                    }
+                }
+            }
+            reachList.addAll(newList);
+            divisors.add(b);
+
+            if (firstGood < 0 && reachable[Y]) {
+                firstGood = i + 1;
+            }
+            if (firstGood >= 0) {
+                ans.add(i + 1);
+            }
+        }
+
+        System.out.println(ans.size());
+        if (!ans.isEmpty()) {
+            for (int k : ans) System.out.print(k + " ");
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) throws IOException, java.lang.Exception {
